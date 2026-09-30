@@ -635,30 +635,36 @@ range between their private choices.
 #### Conformance corpus
 
 The externally authored conformance corpus for this predicate is maintained
-at [`astrogilda/aee-conformance`](https://github.com/astrogilda/aee-conformance)
+at [`probityai/agent-evidence-vectors`](https://github.com/probityai/agent-evidence-vectors)
 under `vectors-ai-agent-action/`. The pinned release is
-[v0.8.0](https://github.com/astrogilda/aee-conformance/releases/tag/v0.8.0),
-at commit `899c5e3dd7e5094f06e4dc858d66a4ec3f55b9b1`, carrying 53 vectors,
-37 accept and 16 reject, across 16 conditions. Its `spec-vendored/`
-directory is regenerated against the specification text at the parent of
-this revision, commit `8783c6b800247f2ffe34714a32a9b722e438d851`, and the
-release notes publish
+[v0.15.0](https://github.com/probityai/agent-evidence-vectors/tree/v0.15.0),
+at commit `de43028d17251fe9eee6b6ada6deb776cbe67a43`, carrying 62 vectors,
+41 accept and 21 reject, across 19 conditions. Its `spec-vendored/`
+directory is regenerated against the specification text at commit
+`a5dd509c7476bcd7c738bee1afc3c02a57ac9e91`, and its `MANIFEST.json` records
 
 -   `corpusDigest`
-    `f2be44dbb8d207a444eecc19874b7ba3e1276f15175c7f161e8062909ddc1d2a`, and
+    `b80da5c5506f4c566503456dfa0d49bf78c731e0f02cc01d857e2ef1215cbf64`, and
 -   `specDigest`
-    `273eb3475d11610b5f868661abb7b5538546c482a1a7d589a07a635ef2a79c02`,
-    which equals the SHA-256 of this specification's bytes at `8783c6b`.
+    `5c417e9cb61fa61daaaa7ecf18a5c50f83bb4160635dc353920d3f9d3de73d4c`,
+    which equals the SHA-256 of this specification's bytes at `a5dd509`.
 
-An implementation claiming conformance to the text at commit `8783c6b`
-MUST accept every vector in the pinned release's `accept/` directory and
-MUST reject every vector in its `reject/` directory. The corpus's
-`check_vectors.py` self-check refuses to pass a corpus in which any reject
-condition lacks an accepting twin carrying the same condition id, so a
-verifier that trivially rejects everything does not satisfy the corpus.
+An implementation claiming conformance to the text at commit `a5dd509`
+MUST accept every vector whose expected verdict in the pinned release's
+`MANIFEST.json` is `valid` and MUST reject every vector whose expected
+verdict is `invalid`. From a checkout of the pinned release, the corpus's
+verifier replays it:
+
+```shell
+go run github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.15.0 vectors-ai-agent-action/
+```
+
+The corpus's self-check reports every reject condition that lacks an
+accepting twin carrying the same condition id, so a verifier that trivially
+rejects everything does not satisfy the corpus.
 
 This subsection binds a MUST to a specific pair of bytes: the release
-`v0.8.0` is normative for the specification text it vendors, and every
+`v0.15.0` is normative for the specification text it vendors, and every
 subsequent revision of this document (this revision included) is
 normative-in-principle but is not certified until the next release whose
 `spec-vendored/` recomputes to a `specDigest` matching the revised text.
@@ -1430,7 +1436,7 @@ permission, from replacement prose contributed by Sankalp Gilda (@astrogilda)
 during review of in-toto/attestation#588, itself adapted from the
 canonicalization text of in-toto/attestation#570. An externally authored
 conformance corpus for this predicate is maintained at
-https://github.com/astrogilda/aee-conformance.
+https://github.com/probityai/agent-evidence-vectors.
 
 ### Deviations from the vendored prose
 
